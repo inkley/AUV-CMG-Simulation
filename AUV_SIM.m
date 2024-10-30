@@ -306,8 +306,8 @@ state_cell = {'x','y','z','\phi','\theta','\psi','u','v','w','p','q','r','\alpha
         yticklabels({'-\pi/2', '-\pi/4', '0'})  % Set corresponding labels
 
     subplot(2,1,2)      % Omega
-    %plot(T_OUT,Y_OUT(:,14),'LineWidth',2)        
     plot(T_OUT,Y_OUT(:,14),'Color',[0.8500 0.3250 0.0980],'LineWidth',2)    % red (Single Gyroscope State Plot)
+    %plot(T_OUT,Y_OUT(:,14),'LineWidth',2)        
     %plot(T_OUT,Y_OUT(:,14),'Color',[0.4940 0.1840 0.5560],'LineWidth',2)   % purple
     %plot(T_OUT,Y_OUT(:,14),'Color',[0.3010 0.7450 0.9330],'LineWidth',2)   % light blue
     hold on
@@ -499,8 +499,8 @@ for i = 1:length(radii)
         gyro.I = 0.5 * gyro.m * gyro.r^2;  % Moment of inertia (thin disc)
 
         % Run the simulation
-        [T_OUT, Y_OUT]  = ode45(@CONTROL, [0 loop.cycleT], state_vec, [], gains, gyro, auv, params, d, loop);
-        [tau_cmg]       = TORQUE(gyro, T_OUT, Y_OUT);
+        [T_OUT, Y_OUT] = ode45(@CONTROL, [0 loop.cycleT], state_vec, [], gains, gyro, auv, params, d, loop);
+        [tau_cmg, tau_Omega, tau_alpha] = TORQUE(gyro, T_OUT, Y_OUT);
 
         % Extract Δɑ and ΔΩ
         delta_alpha = diff(Y_OUT(:, 13));  % Deflection angle changes
@@ -511,16 +511,13 @@ for i = 1:length(radii)
         max_delta_omega(i, j) = max(abs(delta_omega));  % Max change in Omega
         
         % Extract necessary parameters for energy input calculation
-        Omega       = Y_OUT(1:end-1, 14);                   % Angular velocity
-        alpha_dot   = diff(Y_OUT(:, 13)) ./ diff(T_OUT);    % Deflection velocity
+        Omega = Y_OUT(1:end-1, 14);                   % Angular velocity
+        alpha_dot = diff(Y_OUT(:, 13)) ./ diff(T_OUT); % Deflection velocity
         
-        % Compute instantaneous powers 
-        % I don't think this is right (tau_cmg.K and tau_cmg.M)
-        P1 = Omega .* tau_cmg.K;        % Power from gyroscope angular velocity
-        % tau_cmg.K should be tau_Omega (torque of the flwyheel)
-        P2 = alpha_dot .* tau_cmg.N;    % Power from deflection velocity
-        % tau_cmg.K should be tau_alpha (torque of the gimbal)
-      
+        % Compute instantaneous powers using tau_Omega and tau_alpha
+        P1 = Omega .* tau_Omega;        % Power from gyroscope angular velocity
+        P2 = alpha_dot .* tau_alpha;    % Power from deflection velocity
+        
         % Integrate the absolute power to calculate the total energy input
         E_in = trapz(T_OUT(1:end-1), abs(P1)) + trapz(T_OUT(1:end-1), abs(P2));
         
@@ -550,11 +547,9 @@ end
 
 % Contour plot for energy input
 figure
-contourf(radii, thicknesses, energy_input_matrix, 20) % The '20' specifies the number of contour levels
+contourf(radii, thicknesses, energy_input_matrix, 20) 
 xlabel('Gyroscope Radius (m)')
 ylabel('Gyroscope Thickness (m)')
 title('CMG Energy Input (J)')
 colorbar
 set(gca, 'FontSize', 16, 'LineWidth', 1.0)
-% ^ This looks opposite to me - shouldn't the energy input increase with
-% larger radii and thickness values?

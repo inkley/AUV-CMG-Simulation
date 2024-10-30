@@ -1,4 +1,4 @@
-function [tau_cmg] = TORQUE(gyro,T_OUT,Y_OUT)
+function [tau_cmg,tau_Omega,tau_alpha] = TORQUE(gyro,T_OUT,Y_OUT)
 % TORQUE.m
 % This script calculates the Control Moment Gyroscope (CMG) torques acting
 % on a neutrally buoyant underwater vehicle. The torques are computed based
@@ -51,4 +51,11 @@ Omega       = Omega(1:end-1);
 tau_cmg.K   = -I.*(cos(alpha).*Omega.*alphadot + sin(alpha).*Omegadot + cos(alpha).*Omega.*r);
 tau_cmg.M   = -I.*(sin(alpha).*Omega.*alphadot - cos(alpha).*Omegadot + sin(alpha).*Omega.*r);
 tau_cmg.N   = I.*Omega.*(cos(alpha).*p + sin(alpha).*q);
+
+%% Calculate tau_Omega and tau_alpha in the CMG frame
+% Flywheel torque needed to change the flywheel’s angular velocity
+tau_Omega = I.*Omegadot;
+
+% Gimbal torque needed to change the gimbal’s deflection angle
+tau_alpha = I.*Omega.*alphadot;
 end
