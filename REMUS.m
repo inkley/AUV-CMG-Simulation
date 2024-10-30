@@ -10,7 +10,7 @@ function [Etadot,tau] = REMUS(~,auv,contpar,params,state,tauC,tau_cmg)
 % - Hydrostatic terms are not included, assuming a neutrally buoyant vehicle.
 % - The inertia matrix is simplified to include only the diagonal
 % components (Ixx, Iyy, Izz), which is a reasonable assumption for this
-% simulation but may need   revisiting for more complex cases.
+% simulation but may need revisiting for more complex cases.
 % 
 % Inputs
 % - auv: Structure containing the AUV's properties, such as mass and inertia.

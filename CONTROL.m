@@ -9,11 +9,13 @@ function [Etadot] = CONTROL(t,state,gains,gyro,auv,params,d,loop)
 % 
 % Inputs
 % - t: Current time in the simulation (unused in calculations, included for
-% ODE solver compatibility). - state: Current state vector of the vehicle,
-% including position, orientation, and velocities.
+% ODE solver compatibility). 
+% - state: Current state vector of the vehicle,including position, 
+% orientation, and velocities.
 % - gains: Structure containing the PD control gains for the AUV's roll,
-% pitch, and yaw. - gyro: Structure containing the gyroscope's properties,
-% including inertia.
+% pitch, and yaw. 
+% - gyro: Structure containing the gyroscope's properties, including 
+% inertia.
 % - auv: Structure containing the AUV's properties, such as mass and
 % inertia. 
 % - params: Structure containing various physical parameters of the
