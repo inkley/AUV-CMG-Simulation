@@ -1,4 +1,4 @@
-% AUV_SIM.m
+% AUV_SIM.m 
 % This is the main simulation script for the Autonomous Underwater Vehicle
 % (AUV) with active gyroscopic roll control. The script initializes the
 % vehicle's state, selects the simulation scenario, and sets up the

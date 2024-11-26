@@ -1,4 +1,4 @@
-function [Etadot,tau] = REMUS(~,auv,contpar,params,state,tauC,tau_cmg)
+function [Etadot,tau] = REMUS(~,auv,contpar,params,state,tauC,tau_cmg) 
 % REMUS.m
 % This script models the dynamics of the REMUS (Remote Environmental
 % Monitoring UnitS) underwater vehicle. The script calculates the

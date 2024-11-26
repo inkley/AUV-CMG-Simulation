@@ -81,7 +81,6 @@ tauC.ND     = 0;    % Desired yaw moment
 
 %% CMG CONTROLS
 % omegadot
-%contpar.Omegadot    = (tauC.MD - tan(alpha)*tauC.KD)/(I*(((sin(alpha))^2)/(cos(alpha)))+I*cos(alpha));
 contpar.Omegadot    = (cos(alpha)*tauC.MD - sin(alpha)*tauC.KD)/(I);
 
 % alphadot
