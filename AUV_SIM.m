@@ -22,8 +22,8 @@ tic         % Start simulaiton timer
 ii = 0;     % 0 VFR, 1 FSV, 2 STM, 3 SPF                          
 
 % Change result designation based on sim case
-manpath = '/Users/Tyler/Desktop/RESEARCH/4 Dissertation/Manuscripts/CMG/Working Results/';  % Work
-%manpath = '/Users/Tyler/Desktop/RESEARCH/4 Dissertation/Manuscripts/CMG/MDPI_Work/';        % MDPI
+%manpath = '/Users/Tyler/Desktop/RESEARCH/4 Dissertation/Manuscripts/CMG/Working Results/';  % Work
+manpath = '/Users/Tyler/Desktop/RESEARCH/4 Dissertation/Manuscripts/CMG/MDPI_Work/';        % MDPI
 
     %%%%% PURE ROLL FROM VEHICLE AT REST %%%%%
     if      ii == 0                     
